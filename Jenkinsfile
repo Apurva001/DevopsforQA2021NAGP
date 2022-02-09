@@ -18,12 +18,10 @@ pipeline {
         stage('code build') {
             when{
                 expression{
-                    BRANCH_NAME -- 'master' && CODE_CHANGES -- 'true'
+                    CODE_CHANGES -- 'true'
                 }
             }
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
                 // Run Maven on a Unix agent.
                 sh 'mvn clean'
             }
