@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('code checkout') {
             steps {
-                sh 'echo hello'
+                sh "echo hello"
             }
 
         }
@@ -17,7 +17,7 @@ pipeline {
         stage('code build') {
             steps {
                 // Run Maven on a Unix agent.
-                sh 'mvn clean'
+                sh "mvn clean"
             }
 
         }
@@ -25,7 +25,7 @@ pipeline {
         stage('Unit test') {
             steps {
                 // Run Maven on a Unix agent.
-                sh 'mvn test'
+                sh "mvn test"
             }
 
         }
