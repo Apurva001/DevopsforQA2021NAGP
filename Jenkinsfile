@@ -9,15 +9,17 @@ pipeline {
     stages {
         stage('code checkout') {
             steps {
-                sh "echo hello"
+                bat "echo hello"
             }
 
         }
 
         stage('code build') {
             steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git'
                 // Run Maven on a Unix agent.
-                sh "mvn clean"
+                bat "mvn clean"
             }
 
         }
@@ -25,7 +27,7 @@ pipeline {
         stage('Unit test') {
             steps {
                 // Run Maven on a Unix agent.
-                sh "mvn test"
+                bat "mvn test"
             }
 
         }
