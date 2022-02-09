@@ -1,4 +1,3 @@
-CODE_CHANGES - getChanges()
 pipeline {
     agent any
 
@@ -16,11 +15,6 @@ pipeline {
         }
 
         stage('code build') {
-            when{
-                expression{
-                    CODE_CHANGES -- 'true'
-                }
-            }
             steps {
                 // Run Maven on a Unix agent.
                 sh 'mvn clean'
