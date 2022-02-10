@@ -34,7 +34,7 @@ pipeline {
         stage('SonarQube analysis') {
             ws('D:\\DEVOPS\\OneDrive_1_1-31-2022\\Hello-World-JAVA-master\\Hello-World-JAVA-master'){
                 withSonarQubeEnv('Sonar') { 
-      		 bat "${scannerHome}/bin/sonar-scanner"
+      		 bat "${scannerHome}/bin/sonar-scanner.bat"
                 }
             }
         }
