@@ -10,7 +10,7 @@ pipeline {
         stage('Cloning project from git') {
             steps {
 		   // Get some code from a GitHub repository
-                git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git, credentialsId: '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', branch: master'
+                git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git'
             }
         }
 
