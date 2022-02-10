@@ -33,9 +33,9 @@ pipeline {
         stage('SonarQube analysis') {
 		 steps {
                 ws('D:\\DEVOPS\\OneDrive_1_1-31-2022\\Hello-World-JAVA-master\\Hello-World-JAVA-master'){
-		    def scannerHome = tool 'SonarScanner';
+		    def scannerHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation';
                     withSonarQubeEnv('Sonar') { 
-      		 bat "${scannerHome}/bin/sonar-scanner.bat"
+      		    bat "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
