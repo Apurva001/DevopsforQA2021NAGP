@@ -33,8 +33,7 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-		steps {
-		bat "mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pcoverage-per-test"	 
+		steps {	 
                 withSonarQubeEnv('Sonar') { 	
                 bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
                 }
