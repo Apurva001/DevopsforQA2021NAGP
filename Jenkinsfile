@@ -37,16 +37,10 @@ pipeline {
 			 script {
                     scannerHome = tool 'SonarScanner';
                 }
-            }
-
-         steps{
                 withSonarQubeEnv('Sonar') { 
                 bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=com.nagarro.devops-tools.devops:demosampleapplication -Dsonar.sources=http://localhost:9000/sonar"
+                bat 'sonar:sonar'
                 }
-            }  
-         steps{ 
-			
-		    bat 'sonar:sonar'
             }
         }
 
