@@ -33,16 +33,15 @@ pipeline {
         stage('SonarQube analysis') {
 		 steps {  
 			 script {
-            		 scannerHome = tool 'SonarScanner';
-       		 	}
-		
-                    withSonarQubeEnv('Sonar') { 
-		   
-		    bat 'mvn clean sonar:sonar'      		   
-                    }
+                    scannerHome = tool 'SonarScanner';
                 }
-	    }
-	 }
+
+                withSonarQubeEnv('Sonar') { 
+		   
+		    bat 'mvn clean sonar:sonar'
+                }
+            }
+        }
 
         stage("Quality gate") {
       steps {
