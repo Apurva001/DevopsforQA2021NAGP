@@ -19,7 +19,7 @@ pipeline {
         stage('Code build') {
             steps {
                 // Run Maven on a Unix agent.
-                bat "mvn clean"
+                bat "mvn install"
             }
 
         }
@@ -33,24 +33,22 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-		 steps {  
-			 script {
-                    scannerHome = tool 'SonarScanner';
-                }
+		 steps {
                 withSonarQubeEnv('Sonar') { 
-                bat "${scannerHome}/bin/sonar-scanner.bat"
+                bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
                 }
-            }
-        }
-        stage("Run sonar") {
-      steps {
-          bat 'sonar:sonar'
             }
         }
 
         stage("Quality gate") {
       steps {
           waitForQualityGate abortPipeline: true
+            }
+        }
+	    
+	       post {
+      success {
+          bat "echo success"
             }
         }
     }
