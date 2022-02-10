@@ -38,7 +38,7 @@ pipeline {
 
                 withSonarQubeEnv('Sonar') { 
 		   
-		    bat 'mvn clean sonar:sonar'
+		    bat 'sonar:sonar'
                 }
             }
         }
