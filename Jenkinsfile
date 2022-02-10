@@ -34,12 +34,14 @@ pipeline {
 		 steps {  
 			 script {
             		 scannerHome = tool 'SonarScanner';
-       		 	}		 
+       		 	}
+			ws('C:\Users\apurvasingh01\.jenkins\workspace\pipelineTestProject'){
                     withSonarQubeEnv('Sonar') { 
       		    bat "${scannerHome}/bin/sonar-scanner.bat"
                     }
                 }
-            }
+	    }
+	}
 
         stage("Quality gate") {
       steps {
