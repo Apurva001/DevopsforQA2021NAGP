@@ -37,7 +37,12 @@ pipeline {
                 }
 
                 withSonarQubeEnv('Sonar') { 
-		   
+		    bat "${scannerHome}/bin/sonar-scanner.bat"
+			-D sonar.login=admin \
+      			-D sonar.password=admin \
+      			-D sonar.projectKey=Devops Sample Application \
+     			-D sonar.exclusions=vendor/**,resources/**,**/*.java \
+      			-D sonar.host.url=http://localhost:9000/sonar"
 		    bat 'sonar:sonar'
                 }
             }
