@@ -38,9 +38,13 @@ pipeline {
                     scannerHome = tool 'SonarScanner';
                 }
                 withSonarQubeEnv('Sonar') { 
-                bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=com.nagarro.devops-tools.devops:demosampleapplication -Dsonar.sources=http://localhost:9000/sonar"
-                bat 'sonar:sonar'
+                bat "${scannerHome}/bin/sonar-scanner.bat"
                 }
+            }
+        }
+        stage("Run sonar") {
+      steps {
+          bat 'sonar:sonar'
             }
         }
 
