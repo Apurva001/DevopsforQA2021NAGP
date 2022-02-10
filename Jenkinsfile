@@ -1,5 +1,3 @@
-
-   
 pipeline {
     agent any
 
@@ -11,7 +9,6 @@ pipeline {
     stages {
         stage('Cloning project from git') {
             steps {
-             env.branch = master
 		   // Get some code from a GitHub repository
                 git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git, credentialsId: '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', branch: master'
             }
