@@ -4,7 +4,6 @@ pipeline {
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven 'MAVEN3'
-	scannerHome 'SonarScanner'
     }
 
     stages {
@@ -34,6 +33,7 @@ pipeline {
         stage('SonarQube analysis') {
 		 steps {
                 ws('D:\\DEVOPS\\OneDrive_1_1-31-2022\\Hello-World-JAVA-master\\Hello-World-JAVA-master'){
+		    def scannerHome = tool 'SonarScanner';
                     withSonarQubeEnv('Sonar') { 
       		 bat "${scannerHome}/bin/sonar-scanner.bat"
                     }
