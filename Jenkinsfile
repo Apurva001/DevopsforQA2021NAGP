@@ -4,20 +4,19 @@ pipeline {
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven 'MAVEN3'
+	scannerHome 'SonarScanner'
     }
 
     stages {
-        stage('code checkout') {
+        stage('Cloning project from git') {
             steps {
-                bat "echo hello"
+		   // Get some code from a GitHub repository
+                git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git'
             }
-
         }
 
-        stage('code build') {
+        stage('Code build') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git'
                 // Run Maven on a Unix agent.
                 bat "mvn clean"
             }
@@ -31,15 +30,20 @@ pipeline {
             }
 
         }
-        
-        stage('Sonar analysis') {
-            steps {
-                withSonarQubeEnv(credentialsId: 'Sonar_Token') {
-				waitForQualityGate abortPipeline: false, credentialsId: 'Sonar_Token'
-				}
-            }
 
+        stage('SonarQube analysis') {
+            ws('D:\\DEVOPS\\OneDrive_1_1-31-2022\\Hello-World-JAVA-master\\Hello-World-JAVA-master'){
+                withSonarQubeEnv('Sonar') { 
+      		 bat "${scannerHome}/bin/sonar-scanner"
+                }
+            }
         }
-    } 
-  
+
+        stage("Quality gate") {
+      steps {
+          waitForQualityGate abortPipeline: true
+            }
+        }
+    }
+
 }
