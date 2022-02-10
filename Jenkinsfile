@@ -46,8 +46,8 @@ pipeline {
             }
         }
 	    
-	       post{
-      success{
+	  stage("final result"){
+      steps{
           bat "echo success"
             }
         }
