@@ -31,15 +31,13 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-		 steps {
-                ws('D:\\DEVOPS\\OneDrive_1_1-31-2022\\Hello-World-JAVA-master\\Hello-World-JAVA-master'){
-		    def scannerHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation';
+		 steps {              
+		    def scannerHome = tool name: 'SonarScanner';
                     withSonarQubeEnv('Sonar') { 
       		    bat "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
-        }
 
         stage("Quality gate") {
       steps {
