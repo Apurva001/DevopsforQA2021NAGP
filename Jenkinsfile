@@ -1,56 +1,39 @@
+node {
+ 
+    withEnv(["PATH+MAVEN=${tool 'MAVEN3'}bin"]) {
+ 
+        stage('Checkout') {
+            def branch = env.gitlabBranch
+            env.branch = branch
+            git url: 'https://github.com/Apurva001/DevopsforQA2021NAGP.git', credentialsId: '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', branch: branch
+        }
+ 
+        stage('Test') {
+            def pom = readMavenPom file: 'pom.xml'
+            print "Build: " + pom.version
+            env.POM_VERSION = pom.version
+            sh 'mvn clean test -Dmaven.test.failure.ignore=true'
+            junit '**/target/surefire-reports/TEST-*.xml'
+            currentBuild.description = "v${pom.version} (${env.branch})"
+        }
+ 
+        stage('QA') {
+            withSonarQubeEnv('sonar') {
+                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+            }
+        }
+ 
+        stage('Build') {
+            def server = Artifactory.server "artifactory-server"
+            def buildInfo = Artifactory.newBuildInfo()
+            def rtMaven = Artifactory.newMavenBuild()
+            rtMaven.tool = 'MAVEN3'
+            rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'mvn01', server: server
+            rtMaven.resolver releaseRepo:'remote-repos', snapshotRepo:'remote-repos', server: server
+            rtMaven.run pom: 'pom.xml', goals: 'clean install -Dmaven.test.skip=true', buildInfo: buildInfo
+            publishBuildInfo server: server, buildInfo: buildInfo
+        }
 
-   
-pipeline {
-    agent any
-
-    tools {
-        // Install the Maven version configured as "M3" and add it to the path.
-        maven 'MAVEN3'
+ 
     }
-
-    stages {
-        stage('Cloning project from git') {
-            steps {
-		   // Get some code from a GitHub repository
-                git 'https://github.com/Apurva001/DevopsforQA2021NAGP.git'
-            }
-        }
-
-        stage('Code build') {
-            steps {
-                // Run Maven on a Unix agent.
-                bat "mvn install"
-            }
-
-        }
-
-        stage('Unit test') {
-            steps {
-                // Run Maven on a Unix agent.
-                bat "mvn test"
-            }
-
-        }
-
-        stage('SonarQube analysis') {
-		steps {	 
-                withSonarQubeEnv('sonar') { 	
-                bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
-                }
-            }
-        }
-
-        stage("Quality gate") {
-      steps {
-          waitForQualityGate abortPipeline: true
-            }
-        }
-	    
-	  stage("final result"){
-      steps{
-          bat "echo success"
-            }
-        }
-    }
-
 }
