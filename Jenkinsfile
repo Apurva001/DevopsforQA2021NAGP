@@ -46,8 +46,8 @@ pipeline {
             }
         }
 	    
-	       post {
-      success {
+	       post{
+      success{
           bat "echo success"
             }
         }
