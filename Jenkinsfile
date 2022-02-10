@@ -4,8 +4,8 @@ node {
  
         stage('Checkout') {
             def branch = env.gitlabBranch
-            env.branch = branch
-            git url: 'https://github.com/Apurva001/DevopsforQA2021NAGP.git', credentialsId: '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', branch: branch
+            env.branch = master
+            git url: 'https://github.com/Apurva001/DevopsforQA2021NAGP.git', credentialsId: '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', branch: master
         }
  
         stage('Test') {
