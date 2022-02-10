@@ -31,6 +31,15 @@ pipeline {
             }
 
         }
+        
+        stage('Sonar analysis') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'Sonar_Token') {
+				waitForQualityGate abortPipeline: false, credentialsId: 'Sonar_Token'
+				}
+            }
+
+        }
     } 
   
 }
