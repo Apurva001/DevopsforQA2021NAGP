@@ -44,15 +44,6 @@ pipeline {
           waitForQualityGate abortPipeline: true
             }
         }
-     
-     stage('Build Artifacts') {
-            server = Artifactory.server "artifactory-server"
-            rtMaven.tool = 'MAVEN3'
-            rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'mvn01', server: server
-            rtMaven.resolver releaseRepo:'remote-repos', snapshotRepo:'remote-repos', server: server
-            rtMaven.run pom: 'pom.xml', goals: 'clean install -Dmaven.test.skip=true', buildInfo: buildInfo
-            publishBuildInfo server: server, buildInfo: buildInfo
-        }
 	    
 	  stage("final result"){
       steps{
